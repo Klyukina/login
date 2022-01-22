@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { UserContext } from '../context/UserContext';
@@ -12,12 +12,15 @@ const StackNavigation = () => {
     const userContext = useContext(UserContext);
     const isAuth = userContext.isAuth;
 
+    useEffect( () => {
+        userContext.authMe();
+    }, [])
+
     return (
         <NavigationContainer>
             <Stack.Navigator>
-                {
-                    isAuth ?
-                        <Stack.Screen
+                {isAuth
+                        ? <Stack.Screen
                             name="SuccessScreen"
                             component={SuccessScreen}
                             options={{headerShown: false}}
